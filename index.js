@@ -6,7 +6,7 @@ const db = require('./config/mongoose');
 
 app.use(express.static('./assets'))
 
-app.set('layout extractStyles`',true)
+app.set('layout extractStyles',true)
 app.set('layout extractScripts',true)
 
 app.use(expressLayouts);
