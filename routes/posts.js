@@ -5,4 +5,6 @@ const postsController = require('../controllers/posts_controller');
 
 router.get('/view',postsController.viewPost);
 
+router.post('/create',postsController.createPost)
+
 module.exports = router;
