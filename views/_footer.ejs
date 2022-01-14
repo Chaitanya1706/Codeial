@@ -2,6 +2,8 @@
     <p><span>&copy;</span> Coding Ninjas</p>
     <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/user/profile">Profile</a></li>
+        <% if(locals.user){ %> 
+            <li><a href="/user/profile/<%= locals.user.id %>">Profile</a></li>
+        <% } %>
     </ul>
 </footer>

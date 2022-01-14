@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const User = require('../models/user');
 
 module.exports.home = function(req,res){
     // console.log(req.cookies);
@@ -10,7 +11,7 @@ module.exports.home = function(req,res){
     // })
 
     
-    // populating the user field using its id...so that now user will contain its all details
+    // finding post and then populating different fields
     Post.find({})
     .populate('user')   // populating user field from post schema
     .populate({   
@@ -20,10 +21,15 @@ module.exports.home = function(req,res){
         }
     })
     .exec(function(err,posts){
-        return res.render('home',{
-            title : 'Codeial | Home',
-            posts : posts
+
+        User.find({},function(err,users){
+            return res.render('home',{
+                title : 'Codeial | Home',
+                posts : posts,
+                all_users : users
+            });
         });
+        
     });
     
 }

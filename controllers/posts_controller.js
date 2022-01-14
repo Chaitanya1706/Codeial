@@ -1,8 +1,5 @@
 const Post = require('../models/post');
-
-module.exports.viewPost = function(req,res){
-    res.end('<h1>Showing the Posts!!</h1>')
-}
+const Comment = require('../models/comment');
 
 module.exports.createPost = function(req,res){
 
@@ -15,5 +12,20 @@ module.exports.createPost = function(req,res){
             return;
         }
         return res.redirect('/')
+    })
+}
+
+module.exports.destroy = function(req,res){
+    Post.findById(req.params.id,function(err,post){
+        if(post.user == req.user.id){
+            post.remove();
+
+            Comment.deleteMany({post:req.params.id},function(err){
+                return res.redirect('back');
+            });
+        }else{
+            return res.redirect('back');
+        }
+        
     })
 }
