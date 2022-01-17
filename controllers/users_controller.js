@@ -24,9 +24,10 @@ module.exports.update = function(req,res){
 
 
 module.exports.signup = function(req,res){
-
+    
     if(req.isAuthenticated()){
-        return res.redirect('/user/profile');
+        // console.log(req.user)
+        return res.redirect(`/user/profile/${req.user.id}`);
     }
 
     return res.render('signup',{
@@ -37,44 +38,44 @@ module.exports.signup = function(req,res){
 module.exports.signin = function(req,res){
     // console.log("logged in");
     if(req.isAuthenticated()){
-        return res.redirect('/user/profile');
+        return res.redirect(`/user/profile/${req.user.id}`);
     }
     return res.render('signin',{
         title :'sign-in'
     })
 }
 
-module.exports.create = function(req,res){
+module.exports.create = async function(req,res){
     // console.log(req.body);
     if(req.body.password != req.body.confirm_password){
         return res.redirect('back');
     }
 
-    User.findOne({email:req.body.email},function(err,user){
-        if(err){console.log('error in finding user', err); return;}
+    try{
+        const user = await User.findOne({email:req.body.email})
 
         if(!user){
-            User.create(req.body,function(err,newUser){
-                if(err){
-                    console.log('Error in creating a User!', err);
-                    return;
-                }
-                return res.redirect('/user/signin');
-            })
+            await User.create(req.body)
+            return res.redirect('/user/signin');
         }else{
 
             return res.redirect('back');
         }
-    })
+    }catch(err){
+        console.log('Error!!',err);
+    }
+    
     
 }
 
 // sign in and create a session for the user
 module.exports.createSession = function(req,res){
+    req.flash('success','Logged In Successfully!')
     return res.redirect('/');
 }
 
 module.exports.destroySession = function(req,res){
     req.logout();
+    req.flash('success','You have Logged Out!')
     res.redirect('/');
 }
