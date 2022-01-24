@@ -15,9 +15,11 @@ module.exports.profile = function(req,res){
 module.exports.update = function(req,res){
     if(req.user.id==req.params.id){
         User.findByIdAndUpdate(req.params.id, req.body,function(err,user){
+            req.flash('success','Updated!!')
             return res.redirect('back');
         });
     }else{
+        req.flash('error','Unauthorized!')
         return res.status(401).send('Unauthorized');
     }
 }
@@ -48,6 +50,7 @@ module.exports.signin = function(req,res){
 module.exports.create = async function(req,res){
     // console.log(req.body);
     if(req.body.password != req.body.confirm_password){
+        req.flash('error', 'Passwords do not match');
         return res.redirect('back');
     }
 

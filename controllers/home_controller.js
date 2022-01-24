@@ -15,6 +15,7 @@ module.exports.home = async function(req,res){
     try{
         // finding post and then populating different fields
         let posts = await Post.find({})
+        .sort('-createdAt')   // sort according to latest created time
         .populate('user')   // populating user field from post schema
         .populate({   
             path : 'comments',   // populating comments field from post schema
