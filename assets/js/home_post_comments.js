@@ -34,7 +34,7 @@ class PostComments{
                 data: $(self).serialize(),
                 success: function(data){
                     let newComment = pSelf.newCommentDom(data.data.comment);
-                    $(`#post-comments-${postId}`).prepend(newComment);
+                    $(`#post-comments-${postId}`).append(newComment);
                     pSelf.deleteComment($(' .delete-comment-button', newComment));
 
                     new Noty({
@@ -83,7 +83,7 @@ class PostComments{
 
                     new Noty({
                         theme: 'relax',
-                        text: "Post Deleted",
+                        text: "Comment Deleted!",
                         type: 'success',
                         layout: 'topRight',
                         timeout: 1500

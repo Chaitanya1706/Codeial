@@ -63,6 +63,8 @@ app.use(session({    // MongoStore is used to store the session cookie in the db
 // setting up passport with local startegy
 const passport = require('passport')
 const passportLocal = require('./config/passport-local-strategy');
+const passportJwt = require('./config/passport-jwt-strategy');
+const passportGoogle = require('./config/passport-google-oauth2-strategy');
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.setAuthenticatedUser)  // middleware to access the authenticated user from locals for views
